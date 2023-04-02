@@ -7,6 +7,8 @@ public interface UserRepository {
 
     Mono<User> getUserById(String userId);
 
+    Mono<User> getUserCartById(String cartId);
+
     Mono<User> saveUser( User user);
 
     Mono<User> updateUser( String userId, User flower);

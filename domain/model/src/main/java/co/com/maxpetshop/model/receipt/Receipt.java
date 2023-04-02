@@ -1,9 +1,8 @@
 package co.com.maxpetshop.model.receipt;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import co.com.maxpetshop.model.cart.Cart;
+import lombok.*;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -11,4 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Receipt {
+
+    private String Id;
+    private Cart cart;
+    private Date createDate;
+    private String phone;
+    private String address;
 }
