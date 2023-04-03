@@ -10,7 +10,8 @@ public interface CartRepository {
 
     Mono<Cart> saveCart(Cart cart);
 
-    Mono<Void> updateItemsList(String cartId, Item item);
+    Mono<Void> addItemToList(String cartId, Item item);
+    Mono<Void> removeItemFromList(String cartId, Item item);
     Mono<Cart> updateCart(String cartId, Cart cart);
 
     Mono<Void> deleteCart(String cartId);

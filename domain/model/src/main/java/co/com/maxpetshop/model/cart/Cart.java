@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,6 +18,6 @@ import java.util.List;
 public class Cart {
 
     private String id;
-    private List<Item> items;
+    private Set<Item> items;
     private Double totalPrice;
 }
