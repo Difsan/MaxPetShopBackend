@@ -55,7 +55,19 @@ public class MongoRepositoryAdapterCart implements CartRepository
 
     @Override
     public Mono<Cart> removeItemFromList(String cartId, Item item) {
-        return null;
+        return this.repository
+                .findById(cartId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "cart with id: " + cartId)))
+                .flatMap(cartData -> {
+                    var listOfItems = cartData.getItems();
+                    listOfItems.stream().forEach(item1 -> {
+                        if (item1.getId().equals(item.getId())) listOfItems.remove(item1);
+                    });
+                    cartData.setItems(listOfItems);
+                    return this.repository.save(cartData);
+                })
+                .map(cartData -> mapper.map(cartData, Cart.class));
     }
 
 
@@ -75,7 +87,6 @@ public class MongoRepositoryAdapterCart implements CartRepository
 
     @Override
     public Mono<Void> deleteCart(String cartId) {
-
         return this.repository
                 .findById(cartId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
