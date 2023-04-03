@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Data
 @Document(collection = "product")
 @NoArgsConstructor
@@ -46,4 +48,19 @@ public class ProductData {
     private Integer inventory;
 
     private Boolean inStock;
+
+    public ProductData(String id, String name, String brand, String description,
+                       String image, String animalType, String category,
+                       Double unitaryPrice, Integer inventory) {
+        this.id = UUID.randomUUID().toString().substring(0,10);
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.image = image;
+        this.animalType = animalType;
+        this.category = category;
+        this.unitaryPrice = unitaryPrice;
+        this.inventory = inventory;
+        this.inStock = true;
+    }
 }
