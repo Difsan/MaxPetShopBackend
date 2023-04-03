@@ -13,7 +13,7 @@ public interface UserRepository {
 
     Mono<User> saveUser( User user);
 
-    Mono<User> updateUser( String userId, User flower);
+    Mono<User> updateUser( String userId, User user);
 
     Mono<Void> deleteUser( String userId);
 
