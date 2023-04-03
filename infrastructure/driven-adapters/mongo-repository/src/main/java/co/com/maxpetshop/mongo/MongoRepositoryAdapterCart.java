@@ -1,6 +1,6 @@
 package co.com.maxpetshop.mongo;
 
-import co.com.maxpetshop.model.cart.User;
+import co.com.maxpetshop.model.cart.Cart;
 import co.com.maxpetshop.model.cart.gateways.CartRepository;
 import co.com.maxpetshop.model.item.Item;
 import co.com.maxpetshop.mongo.data.CartData;
@@ -18,25 +18,25 @@ public class MongoRepositoryAdapterCart implements CartRepository
     private final ObjectMapper mapper;
 
     @Override
-    public Mono<User> getCartById(String cartId) {
+    public Mono<Cart> getCartById(String cartId) {
 
         return this.repository
                 .findById(cartId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
                         "cart with id: " + cartId)))
-                .map(cartData -> mapper.map(cartData, User.class));
+                .map(cartData -> mapper.map(cartData, Cart.class));
     }
 
     @Override
-    public Mono<User> saveCart (User cart) {
+    public Mono<Cart> saveCart (Cart cart) {
         return this.repository
                 .save(mapper.map(cart, CartData.class))
                 .switchIfEmpty(Mono.empty())
-                .map(cartData -> mapper.map(cartData, User.class));
+                .map(cartData -> mapper.map(cartData, Cart.class));
     }
 
     @Override
-    public Mono<User> addItemToList(String cartId, Item item) {
+    public Mono<Cart> addItemToList(String cartId, Item item) {
         return this.repository
                 .findById(cartId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
@@ -47,11 +47,11 @@ public class MongoRepositoryAdapterCart implements CartRepository
                     cartData.setItems(listOfItems);
                     return this.repository.save(cartData);
                 })
-                .map(cartData -> mapper.map(cartData, User.class));
+                .map(cartData -> mapper.map(cartData, Cart.class));
     }
 
     @Override
-    public Mono<User> removeItemFromList(String cartId, Item item) {
+    public Mono<Cart> removeItemFromList(String cartId, Item item) {
         return this.repository
                 .findById(cartId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
@@ -64,12 +64,12 @@ public class MongoRepositoryAdapterCart implements CartRepository
                     cartData.setItems(listOfItems);
                     return this.repository.save(cartData);
                 })
-                .map(cartData -> mapper.map(cartData, User.class));
+                .map(cartData -> mapper.map(cartData, Cart.class));
     }
 
 
     @Override
-    public Mono<User> updateCart (String cartId, User cart) {
+    public Mono<Cart> updateCart (String cartId, Cart cart) {
 
         return this.repository
                 .findById(cartId)
@@ -79,7 +79,7 @@ public class MongoRepositoryAdapterCart implements CartRepository
                     cart.setId(cartData.getId());
                     return repository.save(mapper.map(cart, CartData.class));
                 })
-                .map(cartData -> mapper.map(cartData, User.class));
+                .map(cartData -> mapper.map(cartData, Cart.class));
     }
 
     @Override
