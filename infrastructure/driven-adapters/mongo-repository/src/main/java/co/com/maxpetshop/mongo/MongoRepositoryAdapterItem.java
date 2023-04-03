@@ -1,12 +1,8 @@
 package co.com.maxpetshop.mongo;
 
-import co.com.maxpetshop.model.cart.Cart;
 import co.com.maxpetshop.model.item.Item;
 import co.com.maxpetshop.model.item.gateways.ItemRepository;
-import co.com.maxpetshop.model.user.User;
-import co.com.maxpetshop.model.user.gateways.UserRepository;
 import co.com.maxpetshop.mongo.data.ItemData;
-import co.com.maxpetshop.mongo.data.UserData;
 import lombok.RequiredArgsConstructor;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;

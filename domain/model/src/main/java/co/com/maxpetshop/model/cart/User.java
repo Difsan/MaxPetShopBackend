@@ -1,13 +1,11 @@
 package co.com.maxpetshop.model.cart;
 import co.com.maxpetshop.model.item.Item;
-import co.com.maxpetshop.model.product.Product;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -15,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Cart {
+public class User {
 
     private String id;
     private Set<Item> items;

@@ -1,6 +1,6 @@
 package co.com.maxpetshop.usecase.cart.savecart;
 
-import co.com.maxpetshop.model.cart.Cart;
+import co.com.maxpetshop.model.cart.User;
 import co.com.maxpetshop.model.cart.gateways.CartRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -8,12 +8,12 @@ import reactor.core.publisher.Mono;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public class SaveCartUseCase implements Function<Cart, Mono<Cart>> {
+public class SaveCartUseCase implements Function<User, Mono<User>> {
 
     private final CartRepository cartRepository;
 
     @Override
-    public Mono<Cart> apply(Cart cart) {
+    public Mono<User> apply(User cart) {
         return cartRepository.saveCart(cart);
     }
 }

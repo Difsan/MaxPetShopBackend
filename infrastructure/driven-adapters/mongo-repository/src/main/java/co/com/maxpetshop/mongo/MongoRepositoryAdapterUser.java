@@ -1,7 +1,6 @@
 package co.com.maxpetshop.mongo;
 
-import co.com.maxpetshop.model.cart.Cart;
-import co.com.maxpetshop.model.user.User;
+import co.com.maxpetshop.model.cart.User;
 import co.com.maxpetshop.model.user.gateways.UserRepository;
 import co.com.maxpetshop.mongo.data.UserData;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +27,13 @@ public class MongoRepositoryAdapterUser implements UserRepository
     }
 
     @Override
-    public Mono<Cart> getUserCartById(String cartId) {
-        return null;
+    public Mono<User> getUserByCartId(String cartId) {
+
+        return this.repository
+                .findByCartId(cartId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "user with cartId: " + cartId)))
+                .map(userData -> mapper.map(userData, User.class));
     }
 
     @Override

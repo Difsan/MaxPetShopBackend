@@ -1,9 +1,7 @@
 package co.com.maxpetshop.mongo.data;
 
-import co.com.maxpetshop.model.cart.Cart;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
