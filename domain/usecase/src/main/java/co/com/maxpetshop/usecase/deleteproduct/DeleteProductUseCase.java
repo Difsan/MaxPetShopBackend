@@ -12,7 +12,7 @@ public class DeleteProductUseCase implements Function<String, Mono<Void>> {
     private final ProductRepository productRepository;
 
     @Override
-    public Mono<Void> apply(String productId) {
+    public Mono<Void> apply(String productId ) {
         return productRepository.deleteProduct(productId);
     }
 }

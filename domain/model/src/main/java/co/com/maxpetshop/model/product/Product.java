@@ -1,5 +1,4 @@
 package co.com.maxpetshop.model.product;
-import co.com.maxpetshop.model.category.Category;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +18,7 @@ public class Product {
     private String description;
     private String image;
     private String animalType;
-    private Category category;
+    private String category;
     private Double unitaryPrice;
     private Integer iva;
     private Integer inventory;
