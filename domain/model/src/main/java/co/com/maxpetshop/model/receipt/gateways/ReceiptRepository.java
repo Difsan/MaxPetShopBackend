@@ -8,8 +8,6 @@ public interface ReceiptRepository {
 
     Mono<Receipt> getReceiptById(String receiptId);
     Mono<Receipt> saveReceipt( Receipt receipt);
-
     Mono<Receipt> updateReceipt ( String receiptId, Receipt receipt);
-
     Mono<Void> deleteReceipt(String receiptId);
 }
