@@ -16,5 +16,5 @@ public class Item {
     private String id;
     private Product product;
     private Integer quantity;
-    private Integer subTotal;
+    private Double subTotal;
 }

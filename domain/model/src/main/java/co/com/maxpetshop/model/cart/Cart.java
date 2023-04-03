@@ -18,5 +18,5 @@ public class Cart {
 
     private String id;
     private List<Item> items;
-    private Integer totalPrice;
+    private Double totalPrice;
 }
