@@ -1,5 +1,6 @@
 package co.com.maxpetshop.usecase.user.getuserbyid;
 
+
 import co.com.maxpetshop.model.user.User;
 import co.com.maxpetshop.model.user.gateways.UserRepository;
 import lombok.RequiredArgsConstructor;

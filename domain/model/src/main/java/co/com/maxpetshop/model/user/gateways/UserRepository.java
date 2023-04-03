@@ -1,6 +1,7 @@
 package co.com.maxpetshop.model.user.gateways;
 
-import co.com.maxpetshop.model.cart.User;
+
+import co.com.maxpetshop.model.user.User;
 import reactor.core.publisher.Mono;
 
 public interface UserRepository {

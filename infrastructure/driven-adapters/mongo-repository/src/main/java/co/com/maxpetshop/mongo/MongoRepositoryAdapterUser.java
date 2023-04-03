@@ -1,6 +1,6 @@
 package co.com.maxpetshop.mongo;
 
-import co.com.maxpetshop.model.cart.User;
+import co.com.maxpetshop.model.user.User;
 import co.com.maxpetshop.model.user.gateways.UserRepository;
 import co.com.maxpetshop.mongo.data.UserData;
 import lombok.RequiredArgsConstructor;
