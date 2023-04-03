@@ -60,7 +60,7 @@ public class MongoRepositoryAdapterUser implements UserRepository
         return this.repository
                 .findById(userId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
-                        "fuser with id: " + userId)))
+                        "user with id: " + userId)))
                 .flatMap(userData -> this.repository.deleteById(userData.getId()));
     }
 }

@@ -20,7 +20,6 @@ public class Product {
     private String animalType;
     private String category;
     private Double unitaryPrice;
-    private Integer iva;
     private Integer inventory;
     private Boolean inStock;
 }
