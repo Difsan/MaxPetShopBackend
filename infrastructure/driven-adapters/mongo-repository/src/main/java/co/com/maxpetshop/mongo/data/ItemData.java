@@ -22,17 +22,22 @@ public class ItemData {
     private ProductData product;
 
     @NotNull(message = "Quantity can't be null")
-    @NotBlank(message = "Quantity can't be empty")
+    //@NotBlank(message = "Quantity can't be empty")
     private Integer quantity;
 
-    @NotNull(message = "Password can't be null")
-    @NotBlank(message = "Password can't be empty")
+    //@NotNull(message = "Subtotal can't be null")
+    //@NotBlank(message = "Password can't be empty")
     private Double subTotal;
 
     public ItemData(Integer quantity) {
         this.id = UUID.randomUUID().toString().substring(0,10);
-        this.product = new ProductData();
+        this.product = null;
         this.quantity = quantity;
-        this.subTotal = this.quantity * product.getUnitaryPrice();
+
+        if (this.product == null) {
+            this.subTotal = 0.0;
+        } else {
+            this.subTotal = this.quantity * product.getUnitaryPrice();
+        }
     }
 }
