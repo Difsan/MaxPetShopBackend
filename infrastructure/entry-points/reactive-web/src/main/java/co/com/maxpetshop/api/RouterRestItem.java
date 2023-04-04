@@ -69,7 +69,7 @@ public class RouterRestItem {
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
                     }))
     public RouterFunction<ServerResponse> saveItem (SaveItemUseCase saveItemUseCase){
-        return route(POST("items").and(accept(MediaType.APPLICATION_JSON)),
+        return route(POST("/items").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Item.class)
                         .flatMap(item -> saveItemUseCase.apply(item)
                                 .flatMap(result -> ServerResponse.status(201)

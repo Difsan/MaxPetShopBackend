@@ -4,6 +4,7 @@ import co.com.maxpetshop.model.cart.Cart;
 import co.com.maxpetshop.model.cart.gateways.CartRepository;
 import co.com.maxpetshop.model.item.Item;
 import co.com.maxpetshop.mongo.data.CartData;
+import co.com.maxpetshop.mongo.data.ItemData;
 import lombok.RequiredArgsConstructor;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
@@ -43,8 +44,10 @@ public class MongoRepositoryAdapterCart implements CartRepository
                         "cart with id: " + cartId)))
                 .flatMap(cartData -> {
                     var listOfItems = cartData.getItems();
-                    listOfItems.add(item);
+                    listOfItems.add(mapper.map(item, ItemData.class));
                     cartData.setItems(listOfItems);
+                    cartData.setTotalPrice(
+                            listOfItems.stream().mapToDouble(itemData -> itemData.getSubTotal()).sum());
                     return this.repository.save(cartData);
                 })
                 .map(cartData -> mapper.map(cartData, Cart.class));
@@ -62,6 +65,8 @@ public class MongoRepositoryAdapterCart implements CartRepository
                         if (item1.getId().equals(item.getId())) listOfItems.remove(item1);
                     });
                     cartData.setItems(listOfItems);
+                    cartData.setTotalPrice(
+                            listOfItems.stream().mapToDouble(itemData -> itemData.getSubTotal()).sum());
                     return this.repository.save(cartData);
                 })
                 .map(cartData -> mapper.map(cartData, Cart.class));
@@ -77,6 +82,8 @@ public class MongoRepositoryAdapterCart implements CartRepository
                         "cart with id: " + cartId)))
                 .flatMap(cartData -> {
                     cart.setId(cartData.getId());
+                    //var newTotal = cart.getTotalPrice();
+                    cart.getItems().stream().forEach(item -> cart.setTotalPrice(cart.getTotalPrice()+item.getSubTotal()));
                     return repository.save(mapper.map(cart, CartData.class));
                 })
                 .map(cartData -> mapper.map(cartData, Cart.class));
