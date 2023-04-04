@@ -100,7 +100,7 @@ public class RouterRestUser {
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
                     }
                     ,
-                    requestBody = @RequestBody(required = true, description = "Save a User following the schema",
+                    requestBody = @RequestBody(required = true, description = "Save an User following the schema",
                             content = @Content(schema = @Schema(implementation = User.class)))
                     ))
     public RouterFunction<ServerResponse> saveUser (SaveUserUseCase saveUserUseCase){
@@ -128,7 +128,7 @@ public class RouterRestUser {
                                     content = @Content (schema = @Schema(implementation = User.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
                     },
-                    requestBody = @RequestBody(required = true, description = "Update a User following the schema",
+                    requestBody = @RequestBody(required = true, description = "Update an User following the schema",
                             content = @Content(schema = @Schema(implementation = User.class)))
                     ))
     public RouterFunction<ServerResponse> updateUser (UpdateUserUseCase updateUserUseCase){

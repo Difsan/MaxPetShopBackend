@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class ReceiptData {
 
     private CartData cart;
 
-    private Date createDate;
+    private LocalDate createDate;
 
     private UserData user;
 
@@ -36,7 +37,7 @@ public class ReceiptData {
     public ReceiptData(String phone, String address) {
         this.id = UUID.randomUUID().toString().substring(0,10);
         this.cart = null;
-        this.createDate = Date.from(Instant.now());
+        this.createDate = LocalDate.now();
         this.user = null;
         this.phone = phone;
         this.address = address;

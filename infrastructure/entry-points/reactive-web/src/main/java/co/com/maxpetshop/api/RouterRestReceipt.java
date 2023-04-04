@@ -1,5 +1,6 @@
 package co.com.maxpetshop.api;
 
+import co.com.maxpetshop.model.item.Item;
 import co.com.maxpetshop.model.product.Product;
 import co.com.maxpetshop.model.receipt.Receipt;
 import co.com.maxpetshop.model.user.User;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
@@ -88,11 +90,16 @@ public class RouterRestReceipt {
             beanClass = SaveReceiptUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
             operation = @Operation(operationId = "saveReceipt", tags = "Receipt usecases",
+                    parameters = {@Parameter(name = "receipt", in = ParameterIn.PATH,
+                            schema = @Schema(implementation = Item.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Receipt.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Save a Receipt following the schema",
+                            content = @Content(schema = @Schema(implementation = Receipt.class)))
+                    ))
     public RouterFunction<ServerResponse> saveReceipt (SaveReceiptUseCase saveReceiptUseCase){
         return route(POST("/receipts").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Receipt.class)
@@ -110,12 +117,18 @@ public class RouterRestReceipt {
             beanClass = UpdateReceiptUseCase.class, method = RequestMethod.PUT,
             beanMethod = "apply",
             operation = @Operation(operationId = "updateReceipt", tags = "Receipt usecases",
-                    parameters = {@Parameter(name = "receiptId", description = "Receipt Id", required= true, in = ParameterIn.PATH)},
+                    parameters = {@Parameter(name = "receiptId", description = "Receipt Id", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "receipt", in = ParameterIn.PATH,
+                                    schema = @Schema(implementation = Item.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Receipt.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    }
+                    ,
+                    requestBody = @RequestBody(required = true, description = "Update a Receipt following the schema",
+                            content = @Content(schema = @Schema(implementation = Receipt.class)))
+                    ))
     public RouterFunction<ServerResponse> updateReceipt (UpdateReceiptUseCase updateReceiptUseCase){
         return route(PUT("/receipts/{receiptId}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Receipt.class)

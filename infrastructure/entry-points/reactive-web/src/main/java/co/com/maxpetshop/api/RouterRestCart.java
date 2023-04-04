@@ -2,6 +2,7 @@ package co.com.maxpetshop.api;
 
 import co.com.maxpetshop.model.cart.Cart;
 import co.com.maxpetshop.model.item.Item;
+import co.com.maxpetshop.model.user.User;
 import co.com.maxpetshop.usecase.cart.additemtolist.AddItemToListUseCase;
 import co.com.maxpetshop.usecase.cart.deletecart.DeleteCartUseCase;
 import co.com.maxpetshop.usecase.cart.getcartbyid.GetCartByIdUseCase;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
@@ -67,11 +69,16 @@ public class RouterRestCart {
             beanClass = SaveCartUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
             operation = @Operation(operationId = "saveCart", tags = "Cart usecases",
+                    parameters = {@Parameter(name = "cart", in = ParameterIn.PATH,
+                            schema = @Schema(implementation = Cart.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Cart.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Save a Cart following the schema",
+                            content = @Content(schema = @Schema(implementation = Cart.class)))
+                    ))
     public RouterFunction<ServerResponse> saveCart (SaveCartUseCase saveCartUseCase){
         return route(POST("/carts").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Cart.class)
@@ -95,7 +102,8 @@ public class RouterRestCart {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Cart.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    }
+                    ))
     public RouterFunction<ServerResponse> addItemToList (AddItemToListUseCase addItemToListUseCase){
         return route(POST("/carts/{cartId}/addItem/{I_Id}"),
                 request -> itemAPI.get()
@@ -147,12 +155,17 @@ public class RouterRestCart {
             beanClass = UpdateCartUseCase.class, method = RequestMethod.PUT,
             beanMethod = "apply",
             operation = @Operation(operationId = "updateCart", tags = "Cart usecases",
-                    parameters = {@Parameter(name = "cartId", description = "Cart Id", required= true, in = ParameterIn.PATH)},
+                    parameters = {@Parameter(name = "cartId", description = "Cart Id", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "cart", in = ParameterIn.PATH,
+                                    schema = @Schema(implementation = Cart.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Cart.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Save a cart following the schema",
+                            content = @Content(schema = @Schema(implementation = Cart.class)))
+            ))
     public RouterFunction<ServerResponse> updateCart (UpdateCartUseCase updateCartUseCase){
         return route(PUT("/carts/{cartId}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Cart.class)

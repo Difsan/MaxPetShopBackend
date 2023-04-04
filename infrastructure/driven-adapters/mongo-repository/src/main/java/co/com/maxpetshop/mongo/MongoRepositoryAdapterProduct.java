@@ -85,6 +85,7 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
                         "product with id: " + productId)))
                 .flatMap(productData -> {
                     product.setId(productData.getId());
+                    if(product.getInventory()==0) product.setInStock(false);
                     return repository.save(mapper.map(product, ProductData.class));
                 })
                 .map(productData -> mapper.map(productData, Product.class));

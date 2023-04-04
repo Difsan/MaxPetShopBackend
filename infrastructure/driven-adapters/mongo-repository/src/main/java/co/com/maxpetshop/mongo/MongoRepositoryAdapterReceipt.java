@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+
 @Repository
 @RequiredArgsConstructor
 public class MongoRepositoryAdapterReceipt implements ReceiptRepository
@@ -53,6 +55,7 @@ public class MongoRepositoryAdapterReceipt implements ReceiptRepository
                         "Receipt with id: " + receiptId)))
                 .flatMap(receiptData -> {
                     receipt.setId(receiptData.getId());
+                    receipt.setCreateDate(LocalDate.now());
                     return repository.save(mapper.map(receipt, ReceiptData.class));
                 })
                 .map(receiptData -> mapper.map(receiptData, Receipt.class));

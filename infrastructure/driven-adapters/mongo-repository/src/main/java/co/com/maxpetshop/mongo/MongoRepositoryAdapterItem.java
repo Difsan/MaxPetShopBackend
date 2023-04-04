@@ -43,9 +43,13 @@ public class MongoRepositoryAdapterItem implements ItemRepository
                         "item with id: " + itemId)))
                 .flatMap(itemData -> {
                     item.setId(itemData.getId());
-                    var newSubTotal = item.getSubTotal();
-                    item.setSubTotal(newSubTotal = (item.getProduct().getUnitaryPrice()*item.getQuantity()));
-                    return repository.save(mapper.map(item, ItemData.class));
+                    if (item.getQuantity() > item.getProduct().getInventory()){
+                        return Mono.error(new IllegalArgumentException("Item Quantity can't be > product Inventory "));
+                    }else {
+                        var newSubTotal = item.getSubTotal();
+                        item.setSubTotal(newSubTotal = (item.getProduct().getUnitaryPrice()*item.getQuantity()));
+                        return repository.save(mapper.map(item, ItemData.class));
+                    }
                 })
                 .map(userData -> mapper.map(userData, Item.class));
     }

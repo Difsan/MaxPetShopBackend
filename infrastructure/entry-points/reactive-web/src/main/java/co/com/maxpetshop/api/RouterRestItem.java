@@ -1,5 +1,6 @@
 package co.com.maxpetshop.api;
 
+import co.com.maxpetshop.model.cart.Cart;
 import co.com.maxpetshop.model.item.Item;
 import co.com.maxpetshop.model.product.Product;
 import co.com.maxpetshop.model.user.User;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
@@ -63,11 +65,16 @@ public class RouterRestItem {
             beanClass = SaveItemUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
             operation = @Operation(operationId = "saveItem", tags = "Item usecases",
+                    parameters = {@Parameter(name = "item", in = ParameterIn.PATH,
+                            schema = @Schema(implementation = Item.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Item.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Save an Item following the schema",
+                            content = @Content(schema = @Schema(implementation = Item.class)))
+                    ))
     public RouterFunction<ServerResponse> saveItem (SaveItemUseCase saveItemUseCase){
         return route(POST("/items").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Item.class)
@@ -85,12 +92,17 @@ public class RouterRestItem {
             beanClass = UpdateItemUseCase.class, method = RequestMethod.PUT,
             beanMethod = "apply",
             operation = @Operation(operationId = "updateItem", tags = "Item usecases",
-                    parameters = {@Parameter(name = "itemId", description = "item Id", required= true, in = ParameterIn.PATH)},
+                    parameters = {@Parameter(name = "itemId", description = "item Id", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "item", in = ParameterIn.PATH,
+                                    schema = @Schema(implementation = Item.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Item.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Update an Item following the schema",
+                    content = @Content(schema = @Schema(implementation = Item.class)))
+                    ))
     public RouterFunction<ServerResponse> updateItem (UpdateItemUseCase updateItemUseCase){
         return route(PUT("/items/{itemId}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Item.class)
