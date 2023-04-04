@@ -8,7 +8,6 @@ import reactor.core.publisher.Mono;
 public interface ReceiptRepository {
 
     Mono<Receipt> getReceiptById(String receiptId);
-
     Flux<Receipt> getAllReceiptsByUserId(String userId);
     Mono<Receipt> saveReceipt( Receipt receipt);
     Mono<Receipt> updateReceipt ( String receiptId, Receipt receipt);

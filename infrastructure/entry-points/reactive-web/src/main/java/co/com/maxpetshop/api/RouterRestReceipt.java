@@ -1,15 +1,13 @@
 package co.com.maxpetshop.api;
 
 import co.com.maxpetshop.model.product.Product;
+import co.com.maxpetshop.model.receipt.Receipt;
 import co.com.maxpetshop.model.user.User;
-import co.com.maxpetshop.usecase.product.deleteproduct.DeleteProductUseCase;
-import co.com.maxpetshop.usecase.product.getallproducts.GetAllProductsUseCase;
-import co.com.maxpetshop.usecase.product.getproductbyanimaltype.GetProductByanimalTypeUseCase;
-import co.com.maxpetshop.usecase.product.getproductbycategory.GetProductByCategoryUseCase;
-import co.com.maxpetshop.usecase.product.getproductbyid.GetProductByIdUseCase;
-import co.com.maxpetshop.usecase.product.getproductbyname.GetProductByNameUseCase;
-import co.com.maxpetshop.usecase.product.saveproduct.SaveProductUseCase;
-import co.com.maxpetshop.usecase.product.updateproduct.UpdateProductUseCase;
+import co.com.maxpetshop.usecase.receipt.deletereceipt.DeleteReceiptUseCase;
+import co.com.maxpetshop.usecase.receipt.getallreceiptsbyuserid.GetAllReceiptsByUserIdUseCase;
+import co.com.maxpetshop.usecase.receipt.getreceiptbyid.GetReceiptByIdUseCase;
+import co.com.maxpetshop.usecase.receipt.savereceipt.SaveReceiptUseCase;
+import co.com.maxpetshop.usecase.receipt.updatereceipt.UpdateReceiptUseCase;
 import co.com.maxpetshop.usecase.user.deleteuser.DeleteUserUseCase;
 import co.com.maxpetshop.usecase.user.getuserbycartid.GetUserByCartIdUseCase;
 import co.com.maxpetshop.usecase.user.getuserbyid.GetUserByIdUseCase;
@@ -35,71 +33,70 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class RouterRestUser {
+public class RouterRestReceipt {
 
 
     @Bean
-    @RouterOperation(path = "/users/{userId}", produces = {
+    @RouterOperation(path = "/receipts/{receiptId}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
-            beanClass = GetUserByIdUseCase.class,
+            beanClass = GetReceiptByIdUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
-            operation = @Operation(operationId = "getUserById", tags = "User usecases",
-                    parameters = {@Parameter(name = "userId", description = "user Id", required= true, in = ParameterIn.PATH)},
+            operation = @Operation(operationId = "getReceiptById", tags = "Receipt usecases",
+                    parameters = {@Parameter(name = "receiptId", description = "receipt Id", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = Receipt.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
-    public RouterFunction<ServerResponse> getUserById (GetUserByIdUseCase getUserByIdUseCase){
-        return route(GET("/users/{userId}"),
-                request -> getUserByIdUseCase.apply(request.pathVariable("userId"))
-                        .flatMap(product -> ServerResponse.ok()
+    public RouterFunction<ServerResponse> getReceiptById (GetReceiptByIdUseCase getReceiptByIdUseCase){
+        return route(GET("/receipts/{receiptId}"),
+                request -> getReceiptByIdUseCase.apply(request.pathVariable("receiptId"))
+                        .flatMap(receipt -> ServerResponse.ok()
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue(product))
+                                .bodyValue(receipt))
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }
 
     //Doesn'twork yet
     @Bean
-    @RouterOperation(path = "/users/byCartId/{cartId}", produces = {
+    @RouterOperation(path = "/receipts/byUserId/{userId}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
-            beanClass = GetUserByCartIdUseCase.class,
+            beanClass = GetAllReceiptsByUserIdUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
-            operation = @Operation(operationId = "getUserByCartId", tags = "User usecases",
-                    parameters = {@Parameter(name = "cartId", description = "product by cartId", required= true, in = ParameterIn.PATH)},
+            operation = @Operation(operationId = "getAllReceiptsByUserId", tags = "Receipt usecases",
+                    parameters = {@Parameter(name = "userId", description = "receipts by userId", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = Receipt.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
-    public RouterFunction<ServerResponse> getUserByCartId (GetUserByCartIdUseCase getUserByCartIdUseCase){
-        return route(GET("/users/byCartId/{cartId}"),
-                request -> getUserByCartIdUseCase.apply(request.pathVariable("cartId"))
-                        .flatMap(product -> ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue(product))
+    public RouterFunction<ServerResponse> getReceiptsByUserId (GetAllReceiptsByUserIdUseCase getAllReceiptsByUserIdUseCase){
+        return route(GET("/receipts/byUserId/{userId}"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getAllReceiptsByUserIdUseCase.apply(request.pathVariable("userId")), Receipt.class))
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }
 
     @Bean
-    @RouterOperation(path = "/users", produces = {
+    @RouterOperation(path = "/receipts", produces = {
             MediaType.APPLICATION_JSON_VALUE},
-            beanClass = SaveUserUseCase.class, method = RequestMethod.POST,
+            beanClass = SaveReceiptUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
-            operation = @Operation(operationId = "saveUSer", tags = "User usecases",
+            operation = @Operation(operationId = "saveReceipt", tags = "Receipt usecases",
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = Receipt.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
                     }))
-    public RouterFunction<ServerResponse> saveUser (SaveUserUseCase saveUserUseCase){
-        return route(POST("/users").and(accept(MediaType.APPLICATION_JSON)),
-                request -> request.bodyToMono(User.class)
-                        .flatMap(user -> saveUserUseCase.apply(user)
+    public RouterFunction<ServerResponse> saveReceipt (SaveReceiptUseCase saveReceiptUseCase){
+        return route(POST("/receipts").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(Receipt.class)
+                        .flatMap(receipt -> saveReceiptUseCase.apply(receipt)
                                 .flatMap(result -> ServerResponse.status(201)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
@@ -108,22 +105,22 @@ public class RouterRestUser {
     }
 
     @Bean
-    @RouterOperation(path = "/users/{userId}", produces = {
+    @RouterOperation(path = "/receipts/{receiptId}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
-            beanClass = UpdateUserUseCase.class, method = RequestMethod.PUT,
+            beanClass = UpdateReceiptUseCase.class, method = RequestMethod.PUT,
             beanMethod = "apply",
-            operation = @Operation(operationId = "updateUser", tags = "User usecases",
-                    parameters = {@Parameter(name = "userId", description = "user Id", required= true, in = ParameterIn.PATH)},
+            operation = @Operation(operationId = "updateReceipt", tags = "Receipt usecases",
+                    parameters = {@Parameter(name = "receiptId", description = "Receipt Id", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = Receipt.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
                     }))
-    public RouterFunction<ServerResponse> updateUser (UpdateUserUseCase updateUserUseCase){
-        return route(PUT("/users/{userId}").and(accept(MediaType.APPLICATION_JSON)),
-                request -> request.bodyToMono(User.class)
-                        .flatMap(user -> updateUserUseCase.apply(request.pathVariable("userId"),
-                                        user)
+    public RouterFunction<ServerResponse> updateReceipt (UpdateReceiptUseCase updateReceiptUseCase){
+        return route(PUT("/receipts/{receiptId}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(Receipt.class)
+                        .flatMap(receipt -> updateReceiptUseCase.apply(request.pathVariable("receiptId"),
+                                        receipt)
                                 .flatMap(result -> ServerResponse.status(201)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
@@ -134,23 +131,23 @@ public class RouterRestUser {
     }
 
     @Bean
-    @RouterOperation(path = "/users/{userId}", produces = {
+    @RouterOperation(path = "/receipts/{receiptId}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
-            beanClass = DeleteUserUseCase.class, method = RequestMethod.DELETE,
+            beanClass = DeleteReceiptUseCase.class, method = RequestMethod.DELETE,
             beanMethod = "apply",
-            operation = @Operation(operationId = "deleteUserById", tags = "User usecases",
-                    parameters = {@Parameter(name = "userId", description = "user Id", required= true, in = ParameterIn.PATH)},
+            operation = @Operation(operationId = "deleteReceiptById", tags = "Receipt usecases",
+                    parameters = {@Parameter(name = "receiptId", description = "receipt Id", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = Receipt.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
-    public RouterFunction<ServerResponse> deleteUser (DeleteUserUseCase deleteUserUseCase){
-        return route(DELETE("/users/{userId}"),
-                request -> deleteUserUseCase.apply(request.pathVariable("userId"))
+    public RouterFunction<ServerResponse> deleteReceipt (DeleteReceiptUseCase deleteReceiptUseCase){
+        return route(DELETE("/receipts/{receiptId}"),
+                request -> deleteReceiptUseCase.apply(request.pathVariable("receiptId"))
                         .thenReturn(ServerResponse.ok()
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue("User deleted"))
+                                .bodyValue("Receipt deleted"))
                         .flatMap(serverResponseMono -> serverResponseMono)
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );

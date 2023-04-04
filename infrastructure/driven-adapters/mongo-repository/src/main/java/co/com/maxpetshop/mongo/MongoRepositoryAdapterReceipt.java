@@ -29,12 +29,12 @@ public class MongoRepositoryAdapterReceipt implements ReceiptRepository
 
     @Override
     public Flux<Receipt> getAllReceiptsByUserId(String userId) {
-        return this.repository.findByUserId(userId)
-                .switchIfEmpty(Flux.error(new IllegalArgumentException("There are not " +
-                        "Receipts with id: " + userId)))
+        return this.repository
+                .findAll()
+                .switchIfEmpty(Flux.empty())
+                .filter(receiptData -> receiptData.getUser().getId().equals(userId))
                 .map(receiptData -> mapper.map(receiptData, Receipt.class));
     }
-
 
     @Override
     public Mono<Receipt> saveReceipt (Receipt receipt) {

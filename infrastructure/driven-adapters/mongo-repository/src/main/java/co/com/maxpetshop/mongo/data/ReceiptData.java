@@ -35,9 +35,9 @@ public class ReceiptData {
 
     public ReceiptData(String phone, String address) {
         this.id = UUID.randomUUID().toString().substring(0,10);
-        this.cart = new CartData();
+        this.cart = null;
         this.createDate = Date.from(Instant.now());
-        this.user = new UserData();
+        this.user = null;
         this.phone = phone;
         this.address = address;
     }

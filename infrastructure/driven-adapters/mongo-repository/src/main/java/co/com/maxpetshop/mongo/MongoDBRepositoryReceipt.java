@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 
 public interface MongoDBRepositoryReceipt extends ReactiveMongoRepository<ReceiptData, String> {
-    Flux<ReceiptData> findByUserId (String userId);
+    //Flux<ReceiptData> findByUserId (String userId);
 }

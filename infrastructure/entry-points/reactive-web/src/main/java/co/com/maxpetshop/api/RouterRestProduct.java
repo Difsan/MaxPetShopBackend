@@ -73,7 +73,6 @@ public class RouterRestProduct {
         );
     }
 
-    //Doesn'twork yet
     @Bean
     @RouterOperation(path = "/products/byName/{productName}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
@@ -96,7 +95,6 @@ public class RouterRestProduct {
         );
     }
 
-    //Doesn'twork yet
     @Bean
     @RouterOperation(path = "/products/byAnimalType/{productAnimalType}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
@@ -119,15 +117,14 @@ public class RouterRestProduct {
         );
     }
 
-    //Doesn'twork yet
     @Bean
     @RouterOperation(path = "/products/byCategory/{productCategory}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
-            beanClass = GetProductByanimalTypeUseCase.class,
+            beanClass = GetProductByCategoryUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
-            operation = @Operation(operationId = "getProductByAnimalType", tags = "Products usecases",
-                    parameters = {@Parameter(name = "productAnimalType", description = "product animalType", required= true, in = ParameterIn.PATH)},
+            operation = @Operation(operationId = "getProductByCategory", tags = "Products usecases",
+                    parameters = {@Parameter(name = "productCategory", description = "product Category", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Product.class))),
