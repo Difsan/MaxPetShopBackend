@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +36,7 @@ public class RouterRestProduct {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = GetAllProductsUseCase.class, method = RequestMethod.GET,
             beanMethod = "get",
-            operation = @Operation(operationId = "getAllProducts", tags = "Products usecases",
+            operation = @Operation(operationId = "getAllProducts", tags = "Product usecases",
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
                                     content = @Content(schema = @Schema(implementation = Product.class))),
@@ -56,7 +57,7 @@ public class RouterRestProduct {
             beanClass = GetProductByIdUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
-            operation = @Operation(operationId = "getProductById", tags = "Products usecases",
+            operation = @Operation(operationId = "getProductById", tags = "Product usecases",
                     parameters = {@Parameter(name = "productId", description = "product Id", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
@@ -79,7 +80,7 @@ public class RouterRestProduct {
             beanClass = GetProductByNameUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
-            operation = @Operation(operationId = "getProductByName", tags = "Products usecases",
+            operation = @Operation(operationId = "getProductByName", tags = "Product usecases",
                     parameters = {@Parameter(name = "productName", description = "product Name", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
@@ -101,7 +102,7 @@ public class RouterRestProduct {
             beanClass = GetProductByanimalTypeUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
-            operation = @Operation(operationId = "getProductByAnimalType", tags = "Products usecases",
+            operation = @Operation(operationId = "getProductByAnimalType", tags = "Product usecases",
                     parameters = {@Parameter(name = "productAnimalType", description = "product animalType", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
@@ -123,7 +124,7 @@ public class RouterRestProduct {
             beanClass = GetProductByCategoryUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
-            operation = @Operation(operationId = "getProductByCategory", tags = "Products usecases",
+            operation = @Operation(operationId = "getProductByCategory", tags = "Product usecases",
                     parameters = {@Parameter(name = "productCategory", description = "product Category", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
@@ -144,12 +145,17 @@ public class RouterRestProduct {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = SaveProductUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
-            operation = @Operation(operationId = "saveProduct", tags = "Products usecases",
+            operation = @Operation(operationId = "saveProduct", tags = "Product usecases",
+                    parameters = {@Parameter(name = "product", in = ParameterIn.PATH,
+                            schema = @Schema(implementation = Product.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Product.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Save a Product following the schema",
+                            content = @Content(schema = @Schema(implementation = Product.class)))
+                    ))
     public RouterFunction<ServerResponse> saveProduct (SaveProductUseCase saveProductUseCase){
         return route(POST("/products").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Product.class)
@@ -166,13 +172,18 @@ public class RouterRestProduct {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = UpdateProductUseCase.class, method = RequestMethod.PUT,
             beanMethod = "apply",
-            operation = @Operation(operationId = "updateProduct", tags = "Products usecases",
-                    parameters = {@Parameter(name = "productId", description = "product Id", required= true, in = ParameterIn.PATH)},
+            operation = @Operation(operationId = "updateProduct", tags = "Product usecases",
+                    parameters = {@Parameter(name = "productId", description = "product Id", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "product", in = ParameterIn.PATH,
+                                    schema = @Schema(implementation = Product.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Product.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Update a Product following the schema",
+                            content = @Content(schema = @Schema(implementation = Product.class)))
+            ))
     public RouterFunction<ServerResponse> updateProduct (UpdateProductUseCase updateProductUseCase){
         return route(PUT("/products/{productId}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(Product.class)
@@ -192,7 +203,7 @@ public class RouterRestProduct {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = DeleteProductUseCase.class, method = RequestMethod.DELETE,
             beanMethod = "apply",
-            operation = @Operation(operationId = "deleteProductById", tags = "Products usecases",
+            operation = @Operation(operationId = "deleteProductById", tags = "Product usecases",
                     parameters = {@Parameter(name = "productId", description = "product Id", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",

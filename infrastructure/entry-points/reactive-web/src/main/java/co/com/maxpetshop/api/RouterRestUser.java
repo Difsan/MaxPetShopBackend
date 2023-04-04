@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +49,7 @@ public class RouterRestUser {
                     parameters = {@Parameter(name = "userId", description = "user Id", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = User.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> getUserById (GetUserByIdUseCase getUserByIdUseCase){
@@ -72,7 +73,7 @@ public class RouterRestUser {
                     parameters = {@Parameter(name = "cartId", description = "product by cartId", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = User.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> getUserByCartId (GetUserByCartIdUseCase getUserByCartIdUseCase){
@@ -91,11 +92,17 @@ public class RouterRestUser {
             beanClass = SaveUserUseCase.class, method = RequestMethod.POST,
             beanMethod = "apply",
             operation = @Operation(operationId = "saveUSer", tags = "User usecases",
+                    parameters = {@Parameter(name = "user", in = ParameterIn.PATH,
+                            schema = @Schema(implementation = User.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = User.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    }
+                    ,
+                    requestBody = @RequestBody(required = true, description = "Save a User following the schema",
+                            content = @Content(schema = @Schema(implementation = User.class)))
+                    ))
     public RouterFunction<ServerResponse> saveUser (SaveUserUseCase saveUserUseCase){
         return route(POST("/users").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(User.class)
@@ -113,12 +120,17 @@ public class RouterRestUser {
             beanClass = UpdateUserUseCase.class, method = RequestMethod.PUT,
             beanMethod = "apply",
             operation = @Operation(operationId = "updateUser", tags = "User usecases",
-                    parameters = {@Parameter(name = "userId", description = "user Id", required= true, in = ParameterIn.PATH)},
+                    parameters = {@Parameter(name = "userId", description = "user Id", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "user", in = ParameterIn.PATH,
+                                    schema = @Schema(implementation = User.class))},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = User.class))),
                             @ApiResponse(responseCode = "406", description = "Not acceptable, Try again")
-                    }))
+                    },
+                    requestBody = @RequestBody(required = true, description = "Update a User following the schema",
+                            content = @Content(schema = @Schema(implementation = User.class)))
+                    ))
     public RouterFunction<ServerResponse> updateUser (UpdateUserUseCase updateUserUseCase){
         return route(PUT("/users/{userId}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(User.class)
@@ -142,7 +154,7 @@ public class RouterRestUser {
                     parameters = {@Parameter(name = "userId", description = "user Id", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
-                                    content = @Content (schema = @Schema(implementation = Product.class))),
+                                    content = @Content (schema = @Schema(implementation = User.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> deleteUser (DeleteUserUseCase deleteUserUseCase){
