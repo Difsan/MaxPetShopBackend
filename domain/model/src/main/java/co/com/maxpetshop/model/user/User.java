@@ -18,6 +18,6 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    //private Cart cart = new Cart();
-    private String cartId;
+    private Cart cart;
+    //private String cartId;
 }

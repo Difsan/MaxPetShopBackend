@@ -33,15 +33,16 @@ public class UserData {
     @NotBlank(message = "Password can't be empty")
     private String password;
 
-    //private CartData cart = new CartData();
-    private String cartId;
+    private CartData cart;
+    //private String cartId;
 
-    public UserData(String name, String lastName, String email, String password, String cartId){
+    public UserData(String name, String lastName, String email, String password){
         this.id = UUID.randomUUID().toString().substring(0,10);
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.cartId = cartId;
+        //this.cartId = cartId;
+        this.cart = null;
     }
 }

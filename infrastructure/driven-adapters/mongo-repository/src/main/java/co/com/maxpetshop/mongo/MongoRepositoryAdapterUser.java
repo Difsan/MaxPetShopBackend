@@ -28,11 +28,13 @@ public class MongoRepositoryAdapterUser implements UserRepository
 
     @Override
     public Mono<User> getUserByCartId(String cartId) {
-
         return this.repository
-                .findByCartId(cartId)
+                .findAll()
+                .switchIfEmpty(Mono.empty())
+                .filter(userData -> userData.getCart().getId().equals(cartId))
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
                         "user with cartId: " + cartId)))
+                .next()
                 .map(userData -> mapper.map(userData, User.class));
     }
 
