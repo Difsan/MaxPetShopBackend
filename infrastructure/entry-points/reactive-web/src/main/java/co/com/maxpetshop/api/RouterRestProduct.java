@@ -75,7 +75,7 @@ public class RouterRestProduct {
 
     //Doesn'twork yet
     @Bean
-    @RouterOperation(path = "/products/{productName}", produces = {
+    @RouterOperation(path = "/products/byName/{productName}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = GetProductByNameUseCase.class,
             method = RequestMethod.GET,
@@ -88,7 +88,7 @@ public class RouterRestProduct {
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> getProductsByName (GetProductByNameUseCase getProductByNameUseCase){
-        return route(GET("/products/{productName}"),
+        return route(GET("/products/byName/{productName}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getProductByNameUseCase.apply(request.pathVariable("productName")), Product.class))
@@ -98,7 +98,7 @@ public class RouterRestProduct {
 
     //Doesn'twork yet
     @Bean
-    @RouterOperation(path = "/products/{productAnimalType}", produces = {
+    @RouterOperation(path = "/products/byAnimalType/{productAnimalType}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = GetProductByanimalTypeUseCase.class,
             method = RequestMethod.GET,
@@ -111,7 +111,7 @@ public class RouterRestProduct {
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> getProductsByAnimalType (GetProductByanimalTypeUseCase getProductByanimalTypeUseCase){
-        return route(GET("/products/{productAnimalType}"),
+        return route(GET("/products/byAnimalType/{productAnimalType}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getProductByanimalTypeUseCase.apply(request.pathVariable("productAnimalType")), Product.class))
@@ -121,7 +121,7 @@ public class RouterRestProduct {
 
     //Doesn'twork yet
     @Bean
-    @RouterOperation(path = "/products/{productCategory}", produces = {
+    @RouterOperation(path = "/products/byCategory/{productCategory}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = GetProductByanimalTypeUseCase.class,
             method = RequestMethod.GET,
@@ -134,7 +134,7 @@ public class RouterRestProduct {
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> getProductsByCategory (GetProductByCategoryUseCase getProductByCategoryUseCase){
-        return route(GET("/products/{productCategory}"),
+        return route(GET("/products/byCategory/{productCategory}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getProductByCategoryUseCase.apply(request.pathVariable("productCategory")), Product.class))

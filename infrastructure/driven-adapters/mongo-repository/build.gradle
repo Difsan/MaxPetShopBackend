@@ -7,6 +7,5 @@ dependencies {
     //runtimeOnly 'de.flapdoodle.embed:de.flapdoodle.embed.mongo' // TODO: remove this dependency to connect to real database
     testImplementation 'org.reactivecommons.utils:object-mapper:0.1.0'
 
-
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.4'
 }

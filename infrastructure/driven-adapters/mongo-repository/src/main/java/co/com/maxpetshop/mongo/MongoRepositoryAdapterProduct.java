@@ -45,7 +45,7 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
-                .filter(productData -> productData.getName().startsWith(productName))
+                .filter(productData -> productData.getName().toLowerCase().startsWith(productName.toLowerCase()))
                 .map(productData -> mapper.map(productData, Product.class));
     }
 
@@ -54,7 +54,7 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
-                .filter(productData -> productData.getName().startsWith(productAnimalType))
+                .filter(productData -> productData.getAnimalType().toLowerCase().startsWith(productAnimalType.toLowerCase()))
                 .map(productData -> mapper.map(productData, Product.class));
     }
 
@@ -63,7 +63,7 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
-                .filter(productData -> productData.getName().startsWith(productCategory))
+                .filter(productData -> productData.getCategory().toLowerCase().startsWith(productCategory.toLowerCase()))
                 .map(productData -> mapper.map(productData, Product.class));
     }
 
