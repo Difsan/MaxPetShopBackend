@@ -41,7 +41,7 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
     }
 
     @Override
-    public Flux<Product> getProductByName(String productName) {
+    public Flux<Product> getProductsByName(String productName) {
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
@@ -50,7 +50,7 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
     }
 
     @Override
-    public Flux<Product> getProductByanimalType(String productAnimalType) {
+    public Flux<Product> getProductsByAnimalType(String productAnimalType) {
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
@@ -59,7 +59,7 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
     }
 
     @Override
-    public Flux<Product> getProductByCategory(String productCategory) {
+    public Flux<Product> getProductsByCategory(String productCategory) {
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())

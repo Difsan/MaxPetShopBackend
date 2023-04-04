@@ -40,16 +40,16 @@ public class ProductData {
     private String category;
 
     @NotNull(message = "UnitaryPrice can't be null")
-    @NotBlank(message = "UnitaryPrice can't be empty")
+    //@NotBlank(message = "UnitaryPrice can't be empty")
     private Double unitaryPrice;
 
     @NotNull(message = "Inventory can't be null")
-    @NotBlank(message = "Inventory can't be empty")
+    //@NotBlank(message = "Inventory can't be empty")
     private Integer inventory;
 
     private Boolean inStock;
 
-    public ProductData(String id, String name, String brand, String description,
+    public ProductData(String name, String brand, String description,
                        String image, String animalType, String category,
                        Double unitaryPrice, Integer inventory) {
         this.id = UUID.randomUUID().toString().substring(0,10);

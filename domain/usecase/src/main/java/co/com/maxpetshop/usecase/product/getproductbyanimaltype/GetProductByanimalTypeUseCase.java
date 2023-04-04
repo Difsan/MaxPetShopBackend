@@ -14,6 +14,6 @@ public class GetProductByanimalTypeUseCase implements Function<String, Flux<Prod
 
     @Override
     public Flux<Product> apply(String animalType) {
-        return productRepository.getProductByanimalType(animalType);
+        return productRepository.getProductsByAnimalType(animalType);
     }
 }

@@ -14,6 +14,6 @@ public class GetProductByCategoryUseCase implements Function<String, Flux<Produc
 
     @Override
     public Flux<Product> apply(String category) {
-        return productRepository.getProductByCategory(category );
+        return productRepository.getProductsByCategory(category );
     }
 }

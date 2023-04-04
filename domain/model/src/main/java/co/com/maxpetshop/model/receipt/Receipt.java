@@ -1,5 +1,5 @@
 package co.com.maxpetshop.model.receipt;
-import co.com.maxpetshop.model.cart.User;
+import co.com.maxpetshop.model.cart.Cart;
 import lombok.*;
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Date;
 public class Receipt {
 
     private String Id;
-    private User cart;
+    private Cart cart;
     private Date createDate;
     private co.com.maxpetshop.model.user.User user;
     private String phone;
