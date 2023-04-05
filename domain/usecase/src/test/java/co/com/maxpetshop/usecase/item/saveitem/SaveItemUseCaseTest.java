@@ -33,7 +33,9 @@ class SaveItemUseCaseTest {
     @Test
     @DisplayName("SaveItemUseCase_Success")
     void saveItem() {
-        var item = new Item("5", null, 6, 85.6);
+        var item = new Item("5", new Product("1", "Ringo Premium", "Ringo",
+                "Food for adult dogs", "Image1", "Dog",
+                "Food", 968.452, 5, true), 1, 968.452);
 
         Mockito.when(repository.saveItem(item)).thenReturn(Mono.just(item));
 
@@ -50,7 +52,9 @@ class SaveItemUseCaseTest {
     @Test
     @DisplayName("SaveItemUseCase_Failed")
     void saveItem_Failed() {
-        var item = new Item("5", null, 6, 85.6);
+        var item = new Item("5", new Product("1", "Ringo Premium", "Ringo",
+                "Food for adult dogs", "Image1", "Dog",
+                "Food", 968.452, 5, true), 1, 968.452);
 
         Mockito.when(repository.saveItem(Mockito.any(Item.class)))
                 .thenReturn(Mono.error(new Throwable(Integer.toString(
