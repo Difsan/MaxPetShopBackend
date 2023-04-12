@@ -3,7 +3,7 @@ package co.com.maxpetshop.api;
 import co.com.maxpetshop.model.user.User;
 import co.com.maxpetshop.usecase.user.deleteuser.DeleteUserUseCase;
 import co.com.maxpetshop.usecase.user.getuserbycartid.GetUserByCartIdUseCase;
-import co.com.maxpetshop.usecase.user.getuserbyemail.GetuserbyEmailUseCase;
+import co.com.maxpetshop.usecase.user.getuserbyemail.GetUserByEmailUseCase;
 import co.com.maxpetshop.usecase.user.getuserbyid.GetUserByIdUseCase;
 import co.com.maxpetshop.usecase.user.saveuser.SaveUserUseCase;
 import co.com.maxpetshop.usecase.user.updateuser.UpdateUserUseCase;
@@ -80,7 +80,7 @@ public class RouterRestUser {
     @Bean
     @RouterOperation(path = "/users/byEmail/{email}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
-            beanClass = GetuserbyEmailUseCase.class,
+            beanClass = GetUserByEmailUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
             operation = @Operation(operationId = "getUserByEmail", tags = "User usecases",
@@ -90,7 +90,7 @@ public class RouterRestUser {
                                     content = @Content (schema = @Schema(implementation = User.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
-    public RouterFunction<ServerResponse> getUserByEmail (GetuserbyEmailUseCase getuserbyemailUseCase){
+    public RouterFunction<ServerResponse> getUserByEmail (GetUserByEmailUseCase getuserbyemailUseCase){
         return route(GET("/users/byEmail/{email}"),
                 request -> getuserbyemailUseCase.apply(request.pathVariable("email"))
                         .flatMap(product -> ServerResponse.ok()

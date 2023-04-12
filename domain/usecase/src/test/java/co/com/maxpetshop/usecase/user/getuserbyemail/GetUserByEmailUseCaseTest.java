@@ -22,11 +22,11 @@ class GetUserByEmailUseCaseTest {
     @Mock
     UserRepository repository;
 
-    GetuserbyEmailUseCase useCase;
+    GetUserByEmailUseCase useCase;
 
     @BeforeEach
     void setUp() {
-        useCase = new GetuserbyEmailUseCase(repository);
+        useCase = new GetUserByEmailUseCase(repository);
     }
 
     @Test
