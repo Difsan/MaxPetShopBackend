@@ -1,17 +1,9 @@
 package co.com.maxpetshop.api;
 
-import co.com.maxpetshop.model.product.Product;
 import co.com.maxpetshop.model.user.User;
-import co.com.maxpetshop.usecase.product.deleteproduct.DeleteProductUseCase;
-import co.com.maxpetshop.usecase.product.getallproducts.GetAllProductsUseCase;
-import co.com.maxpetshop.usecase.product.getproductbyanimaltype.GetProductByanimalTypeUseCase;
-import co.com.maxpetshop.usecase.product.getproductbycategory.GetProductByCategoryUseCase;
-import co.com.maxpetshop.usecase.product.getproductbyid.GetProductByIdUseCase;
-import co.com.maxpetshop.usecase.product.getproductbyname.GetProductByNameUseCase;
-import co.com.maxpetshop.usecase.product.saveproduct.SaveProductUseCase;
-import co.com.maxpetshop.usecase.product.updateproduct.UpdateProductUseCase;
 import co.com.maxpetshop.usecase.user.deleteuser.DeleteUserUseCase;
 import co.com.maxpetshop.usecase.user.getuserbycartid.GetUserByCartIdUseCase;
+import co.com.maxpetshop.usecase.user.getuserbyemail.GetuserbyEmailUseCase;
 import co.com.maxpetshop.usecase.user.getuserbyid.GetUserByIdUseCase;
 import co.com.maxpetshop.usecase.user.saveuser.SaveUserUseCase;
 import co.com.maxpetshop.usecase.user.updateuser.UpdateUserUseCase;
@@ -28,7 +20,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
@@ -70,7 +61,7 @@ public class RouterRestUser {
             method = RequestMethod.GET,
             beanMethod = "apply",
             operation = @Operation(operationId = "getUserByCartId", tags = "User usecases",
-                    parameters = {@Parameter(name = "cartId", description = "product by cartId", required= true, in = ParameterIn.PATH)},
+                    parameters = {@Parameter(name = "cartId", description = "user by cartId", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
                                     content = @Content (schema = @Schema(implementation = User.class))),
@@ -86,6 +77,28 @@ public class RouterRestUser {
         );
     }
 
+    @Bean
+    @RouterOperation(path = "/users/byEmail/{email}", produces = {
+            MediaType.APPLICATION_JSON_VALUE},
+            beanClass = GetuserbyEmailUseCase.class,
+            method = RequestMethod.GET,
+            beanMethod = "apply",
+            operation = @Operation(operationId = "getUserByEmail", tags = "User usecases",
+                    parameters = {@Parameter(name = "email", description = "user by email", required= true, in = ParameterIn.PATH)},
+                    responses = {
+                            @ApiResponse(responseCode = "200", description = "Success",
+                                    content = @Content (schema = @Schema(implementation = User.class))),
+                            @ApiResponse(responseCode = "404", description = "Not Found")
+                    }))
+    public RouterFunction<ServerResponse> getUserByEmail (GetuserbyEmailUseCase getuserbyemailUseCase){
+        return route(GET("/users/byEmail/{email}"),
+                request -> getuserbyemailUseCase.apply(request.pathVariable("email"))
+                        .flatMap(product -> ServerResponse.ok()
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue(product))
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
+        );
+    }
     @Bean
     @RouterOperation(path = "/users", produces = {
             MediaType.APPLICATION_JSON_VALUE},

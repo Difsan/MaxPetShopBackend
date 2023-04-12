@@ -39,6 +39,18 @@ public class MongoRepositoryAdapterUser implements UserRepository
     }
 
     @Override
+    public Mono<User> getUserByEmail(String email) {
+        return this.repository
+                .findAll()
+                .switchIfEmpty(Mono.empty())
+                .filter(userData -> userData.getEmail().equals(email))
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "user with email: " + email)))
+                .next()
+                .map(userData -> mapper.map(userData, User.class));
+    }
+
+    @Override
     public Mono<User> saveUser(User user) {
         return this.repository
                 .save(mapper.map(user, UserData.class))

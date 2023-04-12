@@ -11,6 +11,8 @@ public interface UserRepository {
     //It should be implemented in cart(?)
     Mono<User> getUserByCartId(String cartId);
 
+    Mono<User> getUserByEmail(String email);
+
     Mono<User> saveUser( User user);
     //Mono<User> saveUser();
 
