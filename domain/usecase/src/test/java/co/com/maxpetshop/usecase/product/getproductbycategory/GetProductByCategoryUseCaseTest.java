@@ -39,25 +39,25 @@ class GetProductByCategoryUseCaseTest {
                 "Ringo", "Food for adult dogs", "Image4", "Dog",
                 "Food", 100.0, 7, true));
 
-        Mockito.when(repository.getProductsByCategory("Food")).thenReturn(fluxProducts);
+        Mockito.when(repository.getProductsByCategory("Food", "Dog")).thenReturn(fluxProducts);
 
-        var result = useCase.apply("Food");
+        var result = useCase.apply("Food", "Dog");
 
         StepVerifier.create(result)
                 .expectNextCount(2)
                 .verifyComplete();
 
-        Mockito.verify(repository, Mockito.times(1)).getProductsByCategory("Food");
+        Mockito.verify(repository, Mockito.times(1)).getProductsByCategory("Food", "Dog");
     }
 
     @Test
     @DisplayName("GetProductByCategoryUseCase_Failed")
     void getProductByCategory_Failed() {
-        Mockito.when(repository.getProductsByCategory(Mockito.any(String.class)))
+        Mockito.when(repository.getProductsByCategory(Mockito.any(String.class), Mockito.any(String.class)))
                 .thenReturn(Flux.error(new Throwable(Integer.toString(
                         HttpURLConnection.HTTP_NOT_FOUND))));
 
-        var result = useCase.apply("Food");
+        var result = useCase.apply("Food", "Dog");
 
         StepVerifier.create(result)
                 .expectErrorMatches(throwable -> throwable != null &&
@@ -66,7 +66,7 @@ class GetProductByCategoryUseCaseTest {
                 .verify();
 
         Mockito.verify(repository, Mockito.times(1))
-                .getProductsByCategory("Food");
+                .getProductsByCategory("Food", "Dog");
 
     }
 }

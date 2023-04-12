@@ -75,23 +75,24 @@ public class RouterRestProduct {
     }
 
     @Bean
-    @RouterOperation(path = "/products/byName/{productName}", produces = {
+    @RouterOperation(path = "/products/byName/{productName}/animalType/{productAnimalType}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = GetProductByNameUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
             operation = @Operation(operationId = "getProductByName", tags = "Product usecases",
-                    parameters = {@Parameter(name = "productName", description = "product Name", required= true, in = ParameterIn.PATH)},
+                    parameters = {@Parameter(name = "productName", description = "product Name", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "productAnimalType", description = "type of animal", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Product.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> getProductsByName (GetProductByNameUseCase getProductByNameUseCase){
-        return route(GET("/products/byName/{productName}"),
+        return route(GET("/products/byName/{productName}/animalType/{productAnimalType}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(getProductByNameUseCase.apply(request.pathVariable("productName")), Product.class))
+                        .body(BodyInserters.fromPublisher(getProductByNameUseCase.apply(request.pathVariable("productName"), request.pathVariable("productAnimalType")), Product.class))
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }
@@ -119,23 +120,24 @@ public class RouterRestProduct {
     }
 
     @Bean
-    @RouterOperation(path = "/products/byCategory/{productCategory}", produces = {
+    @RouterOperation(path = "/products/byCategory/{productCategory}/animalType/{productAnimalType}", produces = {
             MediaType.APPLICATION_JSON_VALUE},
             beanClass = GetProductByCategoryUseCase.class,
             method = RequestMethod.GET,
             beanMethod = "apply",
             operation = @Operation(operationId = "getProductByCategory", tags = "Product usecases",
-                    parameters = {@Parameter(name = "productCategory", description = "product Category", required= true, in = ParameterIn.PATH)},
+                    parameters = {@Parameter(name = "productCategory", description = "product Category", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "productAnimalType", description = "type of animal", required= true, in = ParameterIn.PATH)},
                     responses = {
                             @ApiResponse(responseCode = "200", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Product.class))),
                             @ApiResponse(responseCode = "404", description = "Not Found")
                     }))
     public RouterFunction<ServerResponse> getProductsByCategory (GetProductByCategoryUseCase getProductByCategoryUseCase){
-        return route(GET("/products/byCategory/{productCategory}"),
+        return route(GET("/products/byCategory/{productCategory}/animalType/{productAnimalType}"),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(getProductByCategoryUseCase.apply(request.pathVariable("productCategory")), Product.class))
+                        .body(BodyInserters.fromPublisher(getProductByCategoryUseCase.apply(request.pathVariable("productCategory"), request.pathVariable("productAnimalType")), Product.class))
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }

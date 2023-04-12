@@ -38,26 +38,26 @@ class GetProductByNameUseCaseTest {
                 "Ringo", "Food for adult dogs", "Image4", "Dog",
                 "Food", 100.0, 7, true));
 
-        Mockito.when(repository.getProductsByName("Ringo Premium")).thenReturn(Flux.concat(fluxProducts.elementAt(0)));
+        Mockito.when(repository.getProductsByName("Ringo Premium", "Dog")).thenReturn(Flux.concat(fluxProducts.elementAt(0)));
 
-        var result = useCase.apply("Ringo Premium");
+        var result = useCase.apply("Ringo Premium", "Dog");
 
         StepVerifier.create(result)
                 .expectNext(fluxProducts.elementAt(0).block())
                 .expectComplete()
                 .verify();
 
-        Mockito.verify(repository, Mockito.times(1)).getProductsByName("Ringo Premium");
+        Mockito.verify(repository, Mockito.times(1)).getProductsByName("Ringo Premium", "Dog");
     }
 
     @Test
     @DisplayName("GetProductByNameUseCase_Failed")
     void getProductByName_Failed() {
-        Mockito.when(repository.getProductsByName(Mockito.any(String.class)))
+        Mockito.when(repository.getProductsByName(Mockito.any(String.class), Mockito.any(String.class)))
                 .thenReturn(Flux.error(new Throwable(Integer.toString(
                         HttpURLConnection.HTTP_NOT_FOUND))));
 
-        var result = useCase.apply("Ringo Premium");
+        var result = useCase.apply("Ringo Premium", "Dog");
 
         StepVerifier.create(result)
                 .expectErrorMatches(throwable -> throwable != null &&
@@ -65,7 +65,7 @@ class GetProductByNameUseCaseTest {
                                 HttpURLConnection.HTTP_NOT_FOUND)))
                 .verify();
 
-        Mockito.verify(repository, Mockito.times(1)).getProductsByName("Ringo Premium");
+        Mockito.verify(repository, Mockito.times(1)).getProductsByName("Ringo Premium", "Dog");
 
     }
 }

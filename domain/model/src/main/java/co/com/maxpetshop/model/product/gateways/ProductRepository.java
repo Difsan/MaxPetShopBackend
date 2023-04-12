@@ -10,11 +10,11 @@ public interface ProductRepository {
 
     Mono<Product> getProductById(String productId);
 
-    Flux<Product> getProductsByName(String productName);
+    Flux<Product> getProductsByName(String productName, String productAnimalType);
 
     Flux<Product> getProductsByAnimalType(String productAnimalType);
 
-    Flux<Product> getProductsByCategory(String productCategory);
+    Flux<Product> getProductsByCategory(String productCategory, String productAnimalType);
 
     Mono<Product> saveProduct( Product product);
 

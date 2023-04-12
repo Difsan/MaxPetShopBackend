@@ -41,11 +41,12 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
     }
 
     @Override
-    public Flux<Product> getProductsByName(String productName) {
+    public Flux<Product> getProductsByName(String productName, String productAnimalType) {
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
                 .filter(productData -> productData.getName().toLowerCase().startsWith(productName.toLowerCase()))
+                .filter(productData -> productData.getAnimalType().toLowerCase().startsWith(productAnimalType.toLowerCase()))
                 .map(productData -> mapper.map(productData, Product.class));
     }
 
@@ -59,11 +60,12 @@ public class MongoRepositoryAdapterProduct implements ProductRepository
     }
 
     @Override
-    public Flux<Product> getProductsByCategory(String productCategory) {
+    public Flux<Product> getProductsByCategory(String productCategory, String productAnimalType) {
         return this.repository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
                 .filter(productData -> productData.getCategory().toLowerCase().startsWith(productCategory.toLowerCase()))
+                .filter(productData -> productData.getAnimalType().toLowerCase().startsWith(productAnimalType.toLowerCase()))
                 .map(productData -> mapper.map(productData, Product.class));
     }
 

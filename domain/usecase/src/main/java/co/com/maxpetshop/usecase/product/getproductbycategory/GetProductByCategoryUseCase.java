@@ -5,15 +5,16 @@ import co.com.maxpetshop.model.product.gateways.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public class GetProductByCategoryUseCase implements Function<String, Flux<Product>> {
+public class GetProductByCategoryUseCase implements BiFunction<String, String, Flux<Product>> {
 
     private final ProductRepository productRepository;
 
     @Override
-    public Flux<Product> apply(String productCategory) {
-        return productRepository.getProductsByCategory(productCategory);
+    public Flux<Product> apply(String productCategory, String productAnimalType) {
+        return productRepository.getProductsByCategory(productCategory, productAnimalType);
     }
 }
