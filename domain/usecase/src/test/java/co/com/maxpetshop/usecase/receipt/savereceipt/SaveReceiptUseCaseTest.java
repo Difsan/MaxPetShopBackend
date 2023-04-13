@@ -18,6 +18,7 @@ import reactor.test.StepVerifier;
 
 import java.net.HttpURLConnection;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ class SaveReceiptUseCaseTest {
 
         var cart = new Cart("5", listItems, 0.0);
 
-        var receipt = new Receipt("3", cart, LocalDate.now(),
+        var receipt = new Receipt("3", cart, new Date(),
                 new User("2", "Diego", "Sanchez",
                         "dif@gmail.com", "1235",
                         cart),"35874125", "Street false 123");
@@ -73,7 +74,7 @@ class SaveReceiptUseCaseTest {
 
         var cart = new Cart("5", listItems, 0.0);
 
-        var receipt = new Receipt("3", cart, LocalDate.now(),
+        var receipt = new Receipt("3", cart, new Date(),
                 new User("2", "Diego", "Sanchez",
                         "dif@gmail.com", "1235",
                         cart),"35874125", "Street false 123");

@@ -19,6 +19,7 @@ import reactor.test.StepVerifier;
 
 import java.net.HttpURLConnection;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,7 +43,7 @@ class UpdateReceiptUseCaseTest {
     void updateReceipt() {
         var cart1 = new Cart("5", new HashSet<>(), 0.0);
 
-        var originalReceipt = new Receipt("1", cart1, LocalDate.now(),
+        var originalReceipt = new Receipt("1", cart1, new Date(),
                 new User("2", "Diego", "Sanchez",
                         "dif@gmail.com", "1235",
                         cart1),"35874125", "Street false 123");
@@ -54,7 +55,7 @@ class UpdateReceiptUseCaseTest {
 
         var cart = new Cart("5", listItems, 0.0);
 
-        var updatedReceipt = new Receipt("1", cart, LocalDate.now(),
+        var updatedReceipt = new Receipt("1", cart, new Date(),
                 new User("2", "Diego", "Sanchez",
                         "dif@gmail.com", "1235",
                         cart),"35874125", "Street false 123");
@@ -77,7 +78,7 @@ class UpdateReceiptUseCaseTest {
     void updateReceipt_Failed() {
         var cart1 = new Cart("5", new HashSet<>(), 0.0);
 
-        var originalReceipt = new Receipt("1", cart1, LocalDate.now(),
+        var originalReceipt = new Receipt("1", cart1, new Date(),
                 new User("2", "Diego", "Sanchez",
                         "dif@gmail.com", "1235",
                         cart1),"35874125", "Street false 123");
@@ -89,7 +90,7 @@ class UpdateReceiptUseCaseTest {
 
         var cart = new Cart("5", listItems, 0.0);
 
-        var updatedReceipt = new Receipt("1", cart, LocalDate.now(),
+        var updatedReceipt = new Receipt("1", cart, new Date(),
                 new User("2", "Diego", "Sanchez",
                         "dif@gmail.com", "1235",
                         cart),"35874125", "Street false 123");

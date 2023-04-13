@@ -15,7 +15,7 @@ public class Receipt {
 
     private String Id;
     private Cart cart;
-    private LocalDate createDate;
+    private Date createDate;
     private User user;
     private String phone;
     private String address;

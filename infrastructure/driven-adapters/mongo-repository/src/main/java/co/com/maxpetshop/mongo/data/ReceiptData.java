@@ -22,7 +22,7 @@ public class ReceiptData {
 
     private CartData cart;
 
-    private LocalDate createDate;
+    private Date createDate;
 
     private UserData user;
 
@@ -37,7 +37,7 @@ public class ReceiptData {
     public ReceiptData(String phone, String address) {
         this.id = UUID.randomUUID().toString().substring(0,10);
         this.cart = null;
-        this.createDate = LocalDate.now();
+        this.createDate = new Date();
         this.user = null;
         this.phone = phone;
         this.address = address;

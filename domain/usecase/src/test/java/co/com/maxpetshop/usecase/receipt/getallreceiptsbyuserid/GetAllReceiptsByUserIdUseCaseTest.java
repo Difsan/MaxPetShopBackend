@@ -19,6 +19,7 @@ import reactor.test.StepVerifier;
 import java.net.HttpURLConnection;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,11 +51,11 @@ class GetAllReceiptsByUserIdUseCaseTest {
 
         var cart2 = new Cart("5", listItems, 0.0);
 
-        var fluxReceipts = Flux.just(new Receipt("1", cart1, LocalDate.now(),
+        var fluxReceipts = Flux.just(new Receipt("1", cart1, new Date(),
                 new User("2", "Diego", "Sanchez",
                         "dif@gmail.com", "1235",
                         cart1),"35874125", "Street false 123"),
-                new Receipt("3", cart2, LocalDate.now(),
+                new Receipt("3", cart2, new Date(),
                         new User("2", "Diego", "Sanchez",
                                 "dif@gmail.com", "1235",
                                 cart2),"35874125", "Street false 123"));
