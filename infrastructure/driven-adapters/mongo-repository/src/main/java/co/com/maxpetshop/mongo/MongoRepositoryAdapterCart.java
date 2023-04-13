@@ -44,6 +44,12 @@ public class MongoRepositoryAdapterCart implements CartRepository
                         "cart with id: " + cartId)))
                 .flatMap(cartData -> {
                     var listOfItems = cartData.getItems();
+                    boolean itemAlreadyExists = listOfItems.stream()
+                            .anyMatch(cartItem -> cartItem.getProduct().getId().equals(item.getProduct().getId()));
+                    if (itemAlreadyExists) {
+                        return Mono.error(new IllegalArgumentException("An Item with product: " +
+                                item.getProduct().getName() + " already exists in the cart"));
+                    }
                     listOfItems.add(mapper.map(item, ItemData.class));
                     cartData.setItems(listOfItems);
                     cartData.setTotalPrice(
@@ -61,9 +67,15 @@ public class MongoRepositoryAdapterCart implements CartRepository
                         "cart with id: " + cartId)))
                 .flatMap(cartData -> {
                     var listOfItems = cartData.getItems();
-                    listOfItems.stream().forEach(item1 -> {
-                        if (item1.getId().equals(item.getId())) listOfItems.remove(item1);
-                    });
+                    boolean itemRemoved = listOfItems
+                            .stream()
+                            .filter(itemData -> itemData.getId().equals(item.getId()))
+                            .findFirst()
+                            .map(itemData -> listOfItems.remove(itemData))
+                            .orElse(false);
+                    if (!itemRemoved) {
+                        return Mono.error(new IllegalArgumentException("Item not found in cart list"));
+                    }
                     cartData.setItems(listOfItems);
                     cartData.setTotalPrice(
                             listOfItems.stream().mapToDouble(itemData -> itemData.getSubTotal()).sum());
@@ -71,7 +83,6 @@ public class MongoRepositoryAdapterCart implements CartRepository
                 })
                 .map(cartData -> mapper.map(cartData, Cart.class));
     }
-
 
     @Override
     public Mono<Cart> updateCart (String cartId, Cart cart) {

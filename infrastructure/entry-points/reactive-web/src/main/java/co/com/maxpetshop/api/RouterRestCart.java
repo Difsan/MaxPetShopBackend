@@ -97,7 +97,8 @@ public class RouterRestCart {
             beanMethod = "apply",
             operation = @Operation(operationId = "addItemToListInCart", tags = "Cart usecases",
                     parameters = {@Parameter(name = "cartId", description = "Cart Id", required= true, in = ParameterIn.PATH),
-                            @Parameter(name = "I_Id", description = "Item Id", required= true, in = ParameterIn.PATH)},
+                            @Parameter(name = "I_Id", description = "Item Id", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "item", description = "Item", required= true, in = ParameterIn.PATH, hidden = true)},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Cart.class))),
@@ -127,7 +128,8 @@ public class RouterRestCart {
             beanMethod = "apply",
             operation = @Operation(operationId = "removeItemFromListInCart", tags = "Cart usecases",
                     parameters = {@Parameter(name = "cartId", description = "Cart Id", required= true, in = ParameterIn.PATH),
-                            @Parameter(name = "I_Id", description = "Item Id", required= true, in = ParameterIn.PATH)},
+                            @Parameter(name = "I_Id", description = "Item Id", required= true, in = ParameterIn.PATH),
+                            @Parameter(name = "item", description = "Item", required= true, in = ParameterIn.PATH, hidden = true)},
                     responses = {
                             @ApiResponse(responseCode = "201", description = "Success",
                                     content = @Content (schema = @Schema(implementation = Cart.class))),
