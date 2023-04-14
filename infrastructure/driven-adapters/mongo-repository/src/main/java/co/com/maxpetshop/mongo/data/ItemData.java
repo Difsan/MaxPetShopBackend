@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.UUID;
 
 @Data
-@Document(collection = "item")
+@Document(collection = "items")
 @NoArgsConstructor
 public class ItemData {
 

@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-@Document(collection = "receipt")
+@Document(collection = "receipts")
 @NoArgsConstructor
 public class ReceiptData {
 

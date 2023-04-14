@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.*;
 
 @Data
-@Document(collection = "cart")
+@Document(collection = "carts")
 @NoArgsConstructor
 public class CartData {
 

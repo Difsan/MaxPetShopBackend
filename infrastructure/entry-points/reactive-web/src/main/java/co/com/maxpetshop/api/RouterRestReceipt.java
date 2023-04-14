@@ -31,6 +31,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import java.util.Collections;
+
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -160,7 +162,8 @@ public class RouterRestReceipt {
                 request -> deleteReceiptUseCase.apply(request.pathVariable("receiptId"))
                         .thenReturn(ServerResponse.ok()
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue("Receipt deleted"))
+                                //.bodyValue("Receipt deleted"))
+                                .bodyValue(Collections.singletonMap("message", "Receipt deleted")))
                         .flatMap(serverResponseMono -> serverResponseMono)
                         .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );

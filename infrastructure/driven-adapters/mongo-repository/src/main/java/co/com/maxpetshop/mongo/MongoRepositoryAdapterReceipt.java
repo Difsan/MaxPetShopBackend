@@ -70,5 +70,6 @@ public class MongoRepositoryAdapterReceipt implements ReceiptRepository
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
                         "Receipt with id: " + receiptId)))
                 .flatMap(receiptData -> this.repository.deleteById(receiptData.getId()));
+                //.then();
     }
 }

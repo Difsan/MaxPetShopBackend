@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.UUID;
 
 @Data
-@Document(collection = "product")
+@Document(collection = "products")
 @NoArgsConstructor
 public class ProductData {
 
